@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TaskService {
-  private apiUrl = 'http://localhost:5218/api/tasks'; // Adjust to your API URL/port
+  private apiUrl = 'http://localhost:5220/api/tasks'; // Adjust to your API URL/port
 
   constructor(private http: HttpClient) { }
 
@@ -16,5 +16,9 @@ export class TaskService {
 
   addTask(task: any): Observable<any> {
     return this.http.post<any>(this.apiUrl, task);
+  }
+
+  updateTask(task: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${task.id}`, task);
   }
 }
