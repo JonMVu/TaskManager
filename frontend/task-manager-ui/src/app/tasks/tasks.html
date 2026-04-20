@@ -1,5 +1,6 @@
+<html>
+<body>
 <h1>Task Manager</h1>
-
 <div class="add-task-form">
   <h2>Add New Task</h2>
   <form (ngSubmit)="addTask()">
@@ -31,49 +32,57 @@
   <div class="column">
     <h2>To-Do</h2>
     <div *ngFor="let task of todoTasks" class="task-box">
-      <h3>{{ task.title }}</h3>
-      <p><strong>Description:</strong> {{ task.description }}</p>
+      <h3 class="task-title-center"><span class="header-title">{{ task.title }}</span></h3>
+      <p><strong>Description:</strong> <span>{{ task.description }}</span></p>
+      <p><strong>Due Date:</strong> <span>{{ task.dueDate | date }}</span></p>
       <p><strong>Status:</strong>
-        <select [(ngModel)]="task.status" (change)="updateStatus(task)">
-          <option value="To-Do">To-Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Complete">Complete</option>
-        </select>
+        <span>
+          <select [(ngModel)]="task.status" (change)="updateStatus(task)">
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </span>
       </p>
-      <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
     </div>
     <p *ngIf="todoTasks.length === 0">No tasks.</p>
   </div>
   <div class="column">
     <h2>In Progress</h2>
     <div *ngFor="let task of inProgressTasks" class="task-box">
-      <h3>{{ task.title }}</h3>
-      <p><strong>Description:</strong> {{ task.description }}</p>
+      <h3 class="task-title-center"><span class="header-title">{{ task.title }}</span></h3>
+      <p><strong>Description:</strong> <span>{{ task.description }}</span></p>
+      <p><strong>Due Date:</strong> <span>{{ task.dueDate | date }}</span></p>
       <p><strong>Status:</strong>
-        <select [(ngModel)]="task.status" (change)="updateStatus(task)">
-          <option value="To-Do">To-Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Complete">Complete</option>
-        </select>
+        <span>
+          <select [(ngModel)]="task.status" (change)="updateStatus(task)">
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </span>
       </p>
-      <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
     </div>
     <p *ngIf="inProgressTasks.length === 0">No tasks.</p>
   </div>
   <div class="column">
     <h2>Complete</h2>
     <div *ngFor="let task of completeTasks" class="task-box">
-      <h3>{{ task.title }}</h3>
-      <p><strong>Description:</strong> {{ task.description }}</p>
+      <h3 class="task-title-center"><span class="header-title">{{ task.title }}</span></h3>
+      <p><strong>Description:</strong> <span>{{ task.description }}</span></p>
+      <p><strong>Due Date:</strong> <span>{{ task.dueDate | date }}</span></p>
       <p><strong>Status:</strong>
-        <select [(ngModel)]="task.status" (change)="updateStatus(task)">
-          <option value="To-Do">To-Do</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Complete">Complete</option>
-        </select>
+        <span>
+          <select [(ngModel)]="task.status" (change)="updateStatus(task)">
+            <option value="To-Do">To-Do</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Complete">Complete</option>
+          </select>
+        </span>
       </p>
-      <p><strong>Due Date:</strong> {{ task.dueDate | date }}</p>
     </div>
     <p *ngIf="completeTasks.length === 0">No tasks.</p>
-  </div>
 </div>
+</div>
+</body>
+</html>
