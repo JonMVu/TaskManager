@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TaskService } from '../services/task.service';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './tasks.html',
   styleUrl: './tasks.css',
 })
+
 export class Tasks implements OnInit {
   tasks: any[] = [];
   todoTasks: any[] = [];
@@ -22,6 +25,33 @@ export class Tasks implements OnInit {
     status: 'To-Do',
     dueDate: ''
   };
+
+  addTaskFormOpen: string | null = null; // 'To-Do', 'In Progress', 'Complete', or null
+
+  openAddTaskForm(column: string) {
+    this.addTaskFormOpen = column;
+    this.newTask = { title: '', description: '', status: column, dueDate: '' };
+  }
+
+  closeAddTaskForm() {
+    this.addTaskFormOpen = null;
+  }
+
+  drop(event: CdkDragDrop<any[]>, newStatus: string): void {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      const task = event.previousContainer.data[event.previousIndex];
+      task.status = newStatus;
+      this.updateStatus(task);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+  }
 
   constructor(private taskService: TaskService) {}
 
@@ -47,8 +77,9 @@ export class Tasks implements OnInit {
     if (this.newTask.title && this.newTask.description) {
       this.taskService.addTask(this.newTask).subscribe({
         next: () => {
-          this.loadTasks(); // Refresh the task lists
-          this.newTask = { title: '', description: '', status: 'To-Do', dueDate: '' }; // Reset form
+          this.loadTasks();
+          this.newTask = { title: '', description: '', status: this.newTask.status, dueDate: '' };
+          this.closeAddTaskForm();
         },
         error: (err) => console.error('Error adding task:', err)
       });
